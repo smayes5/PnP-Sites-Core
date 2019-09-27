@@ -591,7 +591,8 @@ namespace OfficeDevPnP.Core
             HttpClient client = new HttpClient();
             string tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/token";
 
-            var body = $"resource={resourceUri}&client_id=9bc3ab49-b65d-410a-85ad-de819febfddc&grant_type=password&username={username}&password={password}";
+            var urlEncodedPassword = Uri.EscapeDataString(password);
+            var body = $"resource={resourceUri}&client_id=9bc3ab49-b65d-410a-85ad-de819febfddc&grant_type=password&username={username}&password={urlEncodedPassword}";
             var stringContent = new StringContent(body, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded");
 
             var result = await client.PostAsync(tokenEndpoint, stringContent).ContinueWith<string>((response) =>
